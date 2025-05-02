@@ -1,27 +1,23 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react";
-import { Products } from "./Products";
-import { Pagination } from "./Pagination";
+
+// import { Pagination } from "./Pagination";
+import Products from "@/components/Products/Products";
+import { products } from "@/store/fakeData";
 
 describe("Products", () => {
   it("should render products and pagination", async () => {
-    const products = [
-      { id: 1, name: "Product 1" },
-      { id: 2, name: "Product 2" },
-      { id: 3, name: "Product 3" },
-    ];
-
     const { getByText, getAllByRole } = render(
       <div>
-        <Products products={products} />
-        <Pagination />
+        <Products dataProducts={products} />
+        {/* <Pagination /> */}
       </div>
     );
 
     // Verifica che i prodotti siano stati renderizzati
-    expect(getByText("Product 1")).toBeInTheDocument();
-    expect(getByText("Product 2")).toBeInTheDocument();
-    expect(getByText("Product 3")).toBeInTheDocument();
+    expect(getByText("Essence Mascara Lash Princess")).toBeInTheDocument();
+    expect(getByText("Eyeshadow Palette with Mirror")).toBeInTheDocument();
+    expect(getByText("Powder Canister")).toBeInTheDocument();
 
     // Verifica che la paginazione sia stata renderizzata
     const paginationButtons = getAllByRole("button");

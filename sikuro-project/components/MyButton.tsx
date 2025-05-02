@@ -4,5 +4,9 @@ type Props = {
 };
 
 export default function MyButton({ children, onClick }: Props) {
-  return <></>;
+  return (
+    <>
+      <button onClick={onClick}>{children}</button>
+    </>
+  );
 }
