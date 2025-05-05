@@ -15,7 +15,7 @@ const Products = ({ dataProducts }: ProductsProps) => {
             image={product.thumbnail}
             alt={product.title}
           />
-          <CardContent>{product.description}</CardContent>ù
+          <CardContent>{product.description}</CardContent>
         </Card>
       ))}
     </div>

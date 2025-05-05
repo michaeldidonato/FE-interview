@@ -44,3 +44,8 @@ export type ProductsResponse = {
   skip: number;
   limit: number;
 };
+
+export type QueryArgsProducts = {
+  limit: number;
+  skip: number;
+};
