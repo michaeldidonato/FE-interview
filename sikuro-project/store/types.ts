@@ -48,4 +48,6 @@ export type ProductsResponse = {
 export type QueryArgsProducts = {
   limit: number;
   skip: number;
+  category: string;
+  search: string;
 };

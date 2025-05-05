@@ -1,33 +1,44 @@
+import Filters from "@/components/Filters/Filters";
 import PaginationComponent from "@/components/Pagination/PaginationComponent";
 import Products from "@/components/Products/Products";
 import { productsApi } from "@/store/api";
 import { useMemo, useState } from "react";
+import usePageHook from "../store/hooks/usePageHook";
 
 export default function Home() {
-  const limit = 30;
-  const [skip, setSkip] = useState<number>(0);
+  const {
+    limit,
+    skip,
+    category,
+    search,
+    handleSkip,
+    handleCategory,
+    handleSearch,
+  } = usePageHook();
 
-  const { data } = productsApi.useGetProductsQuery(
-    { limit, skip },
-    { refetchOnMountOrArgChange: true }
-  );
+  const { data, isLoading: isLoadginProducts } =
+    productsApi.useGetProductsQuery(
+      { limit, skip, category, search },
+      { refetchOnMountOrArgChange: true }
+    );
+  const { data: dataCategories, isLoading: isLoadingCategories } =
+    productsApi.useGetCategoriesQuery();
+
+  console.log({ dataCategories });
 
   const totalPages = Math.ceil((data?.total ?? 0) / limit);
 
-  const handleSkip = (currentPage: number, nextPage: number) => {
-    if (nextPage > currentPage) {
-      const gap = nextPage - currentPage;
-      setSkip(skip + limit * gap);
-    } else {
-      const gap = currentPage - nextPage;
-      setSkip(skip - limit * gap);
-    }
-  };
-
-  const { data: categories } = productsApi.useGetCategoriesQuery();
+  if ([isLoadginProducts, isLoadingCategories].some((v) => !!v)) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
+      <Filters
+        dataCategory={dataCategories}
+        handleCategory={handleCategory}
+        handleSearch={handleSearch}
+      />
       <Products dataProducts={data} />
       <PaginationComponent totalPages={totalPages} handleSkip={handleSkip} />
     </>
