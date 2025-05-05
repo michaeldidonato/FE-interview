@@ -2,6 +2,7 @@ import { Product } from "@/store/types";
 import { ProductsProps } from "./Products.models";
 import { Card, CardContent, CardHeader, CardMedia } from "@mui/material";
 import style from "./Product.module.css";
+import CartActions from "../CartActions/CartActions";
 
 const Products = ({ dataProducts }: ProductsProps) => {
   return (
@@ -16,6 +17,7 @@ const Products = ({ dataProducts }: ProductsProps) => {
             alt={product.title}
           />
           <CardContent>{product.description}</CardContent>
+          <CartActions />
         </Card>
       ))}
     </div>

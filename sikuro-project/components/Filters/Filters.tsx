@@ -31,7 +31,7 @@ const Filters = ({
   }, [dataCategory]);
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", my: 4, gap: "16px" }}>
+    <Box sx={{ display: "flex", justifyContent: "center", gap: "16px" }}>
       {filterType === FILTER_TYPE.CATEGORY && (
         <Autocomplete
           onChange={(_, opt) => handleCategory(opt?.value ?? "")}

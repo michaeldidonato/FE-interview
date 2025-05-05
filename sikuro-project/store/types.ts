@@ -51,3 +51,13 @@ export type QueryArgsProducts = {
   category: string;
   search: string;
 };
+
+export type QueryArgsCards = {
+  userId: string;
+};
+
+export type QueryArgsAddCard = {
+  userId: string;
+  productId: string;
+  quantity: number;
+};
