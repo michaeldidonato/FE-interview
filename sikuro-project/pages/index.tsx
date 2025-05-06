@@ -1,9 +1,9 @@
 import Filters from "@/components/Filters/Filters";
 import PaginationComponent from "@/components/Pagination/PaginationComponent";
 import Products from "@/components/Products/Products";
-import { productsApi } from "@/store/api";
+import { api } from "@/store/api";
 import usePageHook from "../store/hooks/usePageHook";
-import { Box, IconButton } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 export default function Home() {
@@ -17,15 +17,19 @@ export default function Home() {
     handleSearch,
   } = usePageHook();
 
-  const { data, isLoading: isLoadginProducts } =
-    productsApi.useGetProductsQuery({ limit, skip, category, search });
+  const { data, isLoading: isLoadginProducts } = api.useGetProductsQuery({
+    limit,
+    skip,
+    category,
+    search,
+  });
 
   const { data: dataCategories, isLoading: isLoadingCategories } =
-    productsApi.useGetCategoriesQuery();
+    api.useGetCategoriesQuery();
 
   const userId = localStorage.getItem("userId");
 
-  const { data: dataCarts } = productsApi.useGetCartsQuery(
+  const { data: dataCarts } = api.useGetCartsQuery(
     { userId: userId ?? "" },
     { skip: !userId }
   );
@@ -49,14 +53,14 @@ export default function Home() {
         }}
       >
         <Filters
-          dataCategory={dataCategories}
+          dataCategory={dataCategories ?? []}
           handleCategory={handleCategory}
           handleSearch={handleSearch}
         />
 
-        <IconButton color="primary">
+        <Button variant="contained" color="primary" size="large">
           <ShoppingCartIcon />
-        </IconButton>
+        </Button>
       </Box>
 
       <Products dataProducts={data} />

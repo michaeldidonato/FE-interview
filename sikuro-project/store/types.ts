@@ -61,3 +61,9 @@ export type QueryArgsAddCard = {
   productId: string;
   quantity: number;
 };
+
+export type Category = {
+  slug: string;
+  name: string;
+  url: string;
+};

@@ -17,7 +17,7 @@ const Products = ({ dataProducts }: ProductsProps) => {
             alt={product.title}
           />
           <CardContent>{product.description}</CardContent>
-          <CartActions />
+          <CartActions productId={product.id} />
         </Card>
       ))}
     </div>

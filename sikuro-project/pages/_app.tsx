@@ -1,5 +1,6 @@
 "use client";
 
+import Loader from "@/components/Loader/Loader";
 import { store } from "@/store/store";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
@@ -27,6 +28,7 @@ export default function App({ Component, pageProps }: DocsPAAppProps) {
 
   return (
     <Provider store={store}>
+      <Loader />
       {isClient && <Component {...pageProps} />}
     </Provider>
   );
