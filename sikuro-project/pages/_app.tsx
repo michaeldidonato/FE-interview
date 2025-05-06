@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }: DocsPAAppProps) {
 
   useEffect(() => {
     setIsClient(true);
-    localStorage.setItem("userId", "2");
+    localStorage.setItem("userId", "1");
   }, []);
 
   return (

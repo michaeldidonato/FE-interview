@@ -6,6 +6,7 @@ import {
   QueryArgsCards,
   QueryArgsProducts,
 } from "./types";
+import { Cart } from "./slices/cartTypes";
 
 export const api = createApi({
   reducerPath: "api",
@@ -24,11 +25,11 @@ export const api = createApi({
       query: () => `/products/categories`,
     }),
 
-    getCarts: builder.query<any, QueryArgsCards>({
+    getCarts: builder.query<Cart, QueryArgsCards>({
       query: (queryArgs) => `/carts/user/${queryArgs.userId}`,
     }),
 
-    addCarts: builder.mutation<any, QueryArgsAddCard>({
+    addCarts: builder.mutation<Cart, QueryArgsAddCard>({
       query: (queryArgs) => ({
         url: `/carts/add`,
         headers: { "Content-Type": "application/json" },

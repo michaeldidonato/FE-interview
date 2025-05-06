@@ -16,7 +16,10 @@ const Products = ({ dataProducts }: ProductsProps) => {
             image={product.thumbnail}
             alt={product.title}
           />
-          <CardContent>{product.description}</CardContent>
+          <CardContent>
+            {product.description}
+            <br />${product.price}
+          </CardContent>
           <CartActions productId={product.id} />
         </Card>
       ))}
