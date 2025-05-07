@@ -1,11 +1,21 @@
-import { useSelector } from "react-redux";
-import { CartProps } from "./Cart.models";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import CartItem from "../CartItem/CartItem";
+import { api } from "@/store/api";
+import { deleteCart } from "@/store/slices/cartSlice";
 
-const Cart = ({}: CartProps) => {
+const Cart = () => {
   const carts = useSelector((state: RootState) => state.cart);
+  const [deleteCartMutation] = api.useDeleteCartMutation();
+  const userId = localStorage.getItem("userId");
+  const dispatch = useDispatch();
+
+  const handleDeleteCart = async () => {
+    await deleteCartMutation({ userId: userId ?? "" });
+
+    dispatch(deleteCart());
+  };
 
   return (
     <Box sx={{ minWidth: "500px" }}>
@@ -17,9 +27,9 @@ const Cart = ({}: CartProps) => {
         <CartItem key={cart.id} product={cart} />
       ))}
 
-      <Typography variant="h5" sx={{ padding: "20px" }}>
-        Total ${carts.total.toFixed(2)}
-      </Typography>
+      <Button onClick={handleDeleteCart} sx={{ my: 2, mx: 2 }} color="error">
+        Elimina carrello
+      </Button>
     </Box>
   );
 };

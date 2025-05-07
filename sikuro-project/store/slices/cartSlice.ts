@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { Cart } from "./cartTypes";
 
 const initialState: Cart = {
@@ -26,7 +26,60 @@ export const cartSlice = createSlice({
         products: state.products.concat(action.payload.products),
       };
     },
+
+    addItemToCart: (state, action) => {
+      const rawStateProducts = current(state.products);
+
+      const newStateProducts = rawStateProducts.map((product) => {
+        if (product.id === action.payload.id) {
+          return {
+            ...product,
+            quantity: product.quantity + action.payload.quantity,
+            total: product.total + action.payload.total,
+          };
+        }
+        return product;
+      });
+
+      return {
+        ...state,
+        id: action.payload.id,
+        total: state.total + action.payload.total,
+        products: newStateProducts,
+      };
+    },
+
+    removeItemToCart: (state, action) => {
+      const rawStateProducts = current(state.products);
+
+      const newStateProducts = rawStateProducts
+        .map((product) => {
+          if (product.id === action.payload.id) {
+            return {
+              ...product,
+              quantity: product.quantity - action.payload.quantity,
+              total: product.total - action.payload.total,
+            };
+          }
+          return product;
+        })
+        .filter((p) => p.quantity > 0);
+
+      return {
+        ...state,
+        id: action.payload.id,
+        total: state.total - action.payload.total,
+        products: newStateProducts,
+      };
+    },
+
+    deleteCart: () => {
+      return {
+        ...initialState,
+      };
+    },
   },
 });
 
-export const { addCart } = cartSlice.actions;
+export const { addCart, addItemToCart, removeItemToCart, deleteCart } =
+  cartSlice.actions;

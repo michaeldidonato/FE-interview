@@ -1,9 +1,42 @@
 import { Box, Button } from "@mui/material";
 import { CartItemProps } from "./CartItem.models";
+import { api } from "@/store/api";
+import { useDispatch } from "react-redux";
+import { addItemToCart, removeItemToCart } from "@/store/slices/cartSlice";
 
 const CartItem = ({ product }: CartItemProps) => {
-  const removeFromCart = () => {};
-  const addToCart = () => {};
+  const dispatch = useDispatch();
+  const [modifyItemToCartMutation] = api.useAddItemToCartMutation();
+
+  const removeFromCart = async () => {
+    await modifyItemToCartMutation({
+      userId: localStorage.getItem("userId") ?? "",
+      quantity: product.quantity - 1,
+      productId: product.id.toString(),
+    });
+
+    dispatch(
+      removeItemToCart({
+        ...product,
+        quantity: 1,
+      })
+    );
+  };
+
+  const addToCart = async () => {
+    await modifyItemToCartMutation({
+      userId: localStorage.getItem("userId") ?? "",
+      quantity: product.quantity + 1,
+      productId: product.id.toString(),
+    });
+
+    dispatch(
+      addItemToCart({
+        ...product,
+        quantity: 1,
+      })
+    );
+  };
 
   return (
     <Box
@@ -26,7 +59,7 @@ const CartItem = ({ product }: CartItemProps) => {
             size="small"
             disableElevation
             variant="contained"
-            onClick={() => removeFromCart()}
+            onClick={removeFromCart}
           >
             -
           </Button>
@@ -35,7 +68,7 @@ const CartItem = ({ product }: CartItemProps) => {
             size="small"
             disableElevation
             variant="contained"
-            onClick={() => addToCart()}
+            onClick={addToCart}
           >
             +
           </Button>

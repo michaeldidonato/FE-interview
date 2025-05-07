@@ -45,6 +45,30 @@ export const api = createApi({
         }),
       }),
     }),
+
+    addItemToCart: builder.mutation<Cart, QueryArgsAddCard>({
+      query: (queryArgs) => ({
+        url: `/carts/${queryArgs.userId}`,
+        headers: { "Content-Type": "application/json" },
+        method: "PUT",
+        body: JSON.stringify({
+          products: [
+            {
+              id: queryArgs.productId,
+              quantity: queryArgs.quantity,
+            },
+          ],
+        }),
+      }),
+    }),
+
+    deleteCart: builder.mutation<Cart, { userId: string }>({
+      query: (queryArgs) => ({
+        url: `/carts/${queryArgs.userId}`,
+        headers: { "Content-Type": "application/json" },
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -53,4 +77,6 @@ export const {
   useGetCategoriesQuery,
   useGetCartsQuery,
   useAddCartsMutation,
+  useAddItemToCartMutation,
+  useDeleteCartMutation,
 } = api;
